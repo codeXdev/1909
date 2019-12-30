@@ -53,6 +53,8 @@ public class SqliteHelper extends SQLiteOpenHelper {
             + KEY_MODIFIEDDATE + " STRING"
             + " ) ";
 
+    public static final String DELETE_ALL = "DELETE FROM" + TABLE_NOTES;
+
     public SqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -125,5 +127,21 @@ public class SqliteHelper extends SQLiteOpenHelper {
             return true;
         }
         return false;
+    }
+
+    public int delete(String id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int result = db.delete(TABLE_NOTES, KEY_ID + "=?", new String[]{id});
+
+        return result;
+    }
+
+    public boolean deleteAll(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        int result = db.delete(TABLE_NOTES, null, null);
+
+        return result > 0;
     }
 }
